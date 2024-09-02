@@ -1,3 +1,4 @@
+
 import { Icliente } from "./interfaces";
 let rl = require("readline-sync");
 
@@ -207,17 +208,15 @@ while (menu) {
                     if (contas.length > 1) {
                         console.log("===== LISTAGEM DE CONTAS NO BANCO DE DADOS =====");
                         console.log(
-                            "INDEX".padEnd(6) + 
                             "NOME".padEnd(15) + " | " + 
                             "EMAIL".padEnd(25) + " | " + 
                             "SALDO"
                         );
                         console.log("------------------------------------------------------");
 
-                        contas.forEach((conta, index) => {
+                        contas.forEach((conta) => {
                             if (conta.Id !== conta.Id) {
                                 console.log(
-                                    `${index.toString().padEnd(6)} ` +
                                     `${conta.Nome.padEnd(15)} | ` +
                                     `${conta.Email.padEnd(25)} | ` +
                                     `R$${conta.Saldo.toFixed(2)}`
@@ -243,8 +242,8 @@ while (menu) {
                 }
                 break;
             case 5: // Aplicar Juros
-                if (user instanceof ContaPoupanca) {
-                    let taxa = rl.questionFloat("Insira a taxa de juros (%): ");
+                if (user instanceof ContaPoupanca) { // se o user for uma instancia da conta poupanca
+                    let taxa = rl.questionInt("Insira a taxa de juros (%): ");
                     user.AplicarJuros(taxa);
                 } else {
                     console.log("Apenas contas poupança podem aplicar juros.");
@@ -271,7 +270,6 @@ while (menu) {
 
         rl.question("Pressione Enter para continuar..."); // Pausa até o usuário pressionar Enter
     } catch (error) {
-        console.log("Ocorreu um erro: " + error.message);
         console.log("Por favor, tente novamente.");
         rl.question("Pressione Enter para continuar...");
     }
