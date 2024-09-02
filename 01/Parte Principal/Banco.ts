@@ -1,14 +1,14 @@
-import { Icliente, IContaBancaria } from "./interfaces";
+import { Icliente } from "./interfaces";
 let rl = require("readline-sync");
 
 // Classe base para contas bancárias
 abstract class ContaBancaria implements Icliente {
-    Id: number;
-    Nome: string;
-    Email: string;
-    Senha: number;
-    Saldo: number;
-    Historico: string[];
+    Id: number;               // Identificador único da conta
+    Nome: string;            // Nome do titular da conta
+    Email: string;           // Email do titular da conta
+    Senha: number;           // Senha de acesso da conta
+    Saldo: number;           // Saldo atual da conta
+    Historico: string[];     // Histórico de transações realizadas na conta
 
     constructor(
         Id: number,
@@ -24,17 +24,22 @@ abstract class ContaBancaria implements Icliente {
         this.Saldo = Saldo;
         this.Historico = [];
     }
+    SaltoAtual(): number {
+        throw new Error("Method not implemented.");
+    }
 
+    // Método abstrato para depositar dinheiro (deve ser implementado nas subclasses)
     abstract Depositar(valor: number): void;
     abstract Sacar(valor: number): void;
     abstract Transferir(valor: number, contaDestino: ContaBancaria): void;
 
+    // Método para gerar um extrato detalhado da conta
     GerarExtrato(): void {
         console.log("===== EXTRATO BANCÁRIO DETALHADO =====");
         console.log(`Conta: ${this.Nome} (ID: ${this.Id})`);
         console.log(`Saldo Inicial: R$${this.Saldo.toFixed(2)}`);
         console.log("------------------------------------------------------");
-        
+
         // Imprime o histórico de transações
         this.Historico.forEach((transacao, index) => {
             console.log(`${index + 1}. ${transacao}`);
@@ -44,13 +49,15 @@ abstract class ContaBancaria implements Icliente {
         console.log(`Saldo Final: R$${this.Saldo.toFixed(2)}`);
     }
 
+    // Método para obter o saldo atual da conta
     SaldoAtual(): number {
         return this.Saldo;
     }
 }
 
-// Classe para Conta Corrente
+// Classe para Conta Corrente, que estende ContaBancaria
 class ContaCorrente extends ContaBancaria {
+    // Implementa o método Depositar para a Conta Corrente
     Depositar(valor: number): void {
         if (valor <= 0) throw new Error("O valor do depósito deve ser positivo.");
         this.Saldo += valor;
@@ -58,6 +65,7 @@ class ContaCorrente extends ContaBancaria {
         console.log(`Depósito de R$${valor.toFixed(2)} realizado. Novo saldo: R$${this.Saldo.toFixed(2)}`);
     }
 
+    // Implementa o método Sacar para a Conta Corrente
     Sacar(valor: number): void {
         if (valor <= 0) throw new Error("O valor do saque deve ser positivo.");
         if (valor > this.Saldo) throw new Error("Saldo insuficiente.");
@@ -66,6 +74,7 @@ class ContaCorrente extends ContaBancaria {
         console.log(`Saque de R$${valor.toFixed(2)} realizado. Novo saldo: R$${this.Saldo.toFixed(2)}`);
     }
 
+    // Implementa o método Transferir para a Conta Corrente
     Transferir(valor: number, contaDestino: ContaBancaria): void {
         if (valor <= 0) throw new Error("O valor da transferência deve ser positivo.");
         if (valor > this.Saldo) throw new Error("Saldo insuficiente para transferência.");
@@ -76,8 +85,9 @@ class ContaCorrente extends ContaBancaria {
     }
 }
 
-// Classe para Conta Poupança
+// Classe para Conta Poupança, que estende ContaBancaria
 class ContaPoupanca extends ContaBancaria {
+    // Método para aplicar juros na Conta Poupança
     AplicarJuros(taxa: number): void {
         if (taxa <= 0) throw new Error("A taxa de juros deve ser positiva.");
         const juros = this.Saldo * (taxa / 100);
@@ -86,6 +96,7 @@ class ContaPoupanca extends ContaBancaria {
         console.log(`Juros de R$${juros.toFixed(2)} aplicados. Novo saldo: R$${this.Saldo.toFixed(2)}`);
     }
 
+    // Implementa o método Depositar para a Conta Poupança
     Depositar(valor: number): void {
         if (valor <= 0) throw new Error("O valor do depósito deve ser positivo.");
         this.Saldo += valor;
@@ -93,6 +104,7 @@ class ContaPoupanca extends ContaBancaria {
         console.log(`Depósito de R$${valor.toFixed(2)} realizado. Novo saldo: R$${this.Saldo.toFixed(2)}`);
     }
 
+    // Implementa o método Sacar para a Conta Poupança
     Sacar(valor: number): void {
         if (valor <= 0) throw new Error("O valor do saque deve ser positivo.");
         if (valor > this.Saldo) throw new Error("Saldo insuficiente.");
@@ -101,6 +113,7 @@ class ContaPoupanca extends ContaBancaria {
         console.log(`Saque de R$${valor.toFixed(2)} realizado. Novo saldo: R$${this.Saldo.toFixed(2)}`);
     }
 
+    // Implementa o método Transferir para a Conta Poupança
     Transferir(valor: number, contaDestino: ContaBancaria): void {
         if (valor <= 0) throw new Error("O valor da transferência deve ser positivo.");
         if (valor > this.Saldo) throw new Error("Saldo insuficiente para transferência.");
@@ -111,92 +124,87 @@ class ContaPoupanca extends ContaBancaria {
     }
 }
 
-// Função para criar uma nova conta
+// Função para criar uma nova conta bancária
 function criarConta(tipo: string): ContaBancaria {
-    let id = rl.questionInt("Insira o ID do usuário: ");
-    let nome = rl.question("Insira o nome do usuário: ");
-    let email = rl.question("Insira o email do usuário: ");
-    let senha = rl.questionInt("Insira a senha do usuário: ");
-    let saldo = rl.questionInt("Insira o saldo inicial do usuário: ");
+    let id = rl.questionInt("Insira o ID do usuário: ");  // Solicita o ID da conta
+    let nome = rl.question("Insira o nome do usuário: "); // Solicita o nome do titular
+    let email = rl.question("Insira o email do usuário: "); // Solicita o email do titular
+    let senha = rl.questionInt("Insira a senha do usuário: "); // Solicita a senha da conta
+    let saldo = rl.questionInt("Insira o saldo inicial do usuário: "); // Solicita o saldo inicial
 
     if (tipo === "corrente") {
-        let conta = new ContaCorrente(id, nome, email, senha, saldo);
+        let conta = new ContaCorrente(id, nome, email, senha, saldo); // Cria uma Conta Corrente
         console.log(`Conta Corrente criada para ${nome} com saldo de R$${saldo}.`);
         return conta;
     } else if (tipo === "poupanca") {
-        let conta = new ContaPoupanca(id, nome, email, senha, saldo);
+        let conta = new ContaPoupanca(id, nome, email, senha, saldo); // Cria uma Conta Poupança
         console.log(`Conta Poupança criada para ${nome} com saldo de R$${saldo}.`);
         return conta;
     } else {
-        throw new Error("Tipo de conta inválido.");
+        throw new Error("Tipo de conta inválido."); // Lança um erro se o tipo da conta for inválido
     }
 }
 
-// Função para entrar na conta
+// Função para entrar na conta existente
 function EntrarNaConta(): ContaBancaria | null {
     if (contas.length === 0) {
         console.log("Nenhuma conta cadastrada.");
         return null;
     }
 
-    let id = rl.questionInt("Insira o ID da conta: ");
-    let senha = rl.questionInt("Insira a senha da conta: ");
+    let id = rl.questionInt("Insira o ID da conta: "); // Solicita o ID da conta para login
+    let senha = rl.questionInt("Insira a senha da conta: "); // Solicita a senha da conta para login
 
     for (let conta of contas) {
         if (conta.Id === id && conta.Senha === senha) {
             console.log(`Bem-vindo(a), ${conta.Nome}!`);
-            return conta;
+            return conta; // Retorna a conta se o ID e a senha estiverem corretos
         }
     }
 
-    console.log("ID ou senha incorretos.");
+    console.log("ID ou senha incorretos."); // Mensagem de erro se ID ou senha estiverem incorretos
     return null;
 }
 
-// Lista de contas
+// Lista de contas bancárias
 let contas: ContaBancaria[] = [];
+let menu: boolean = true; // Controle do menu
+let user: ContaBancaria | null = null; // Conta atual selecionada
 
-// Menu interativo
-let menu: boolean = true;
-let user: ContaBancaria | null = null;
+// Loop principal do menu
 
 while (menu) {
     try {
         let opcao = rl.questionInt(
-            "\nInsira o número da opção desejada:\n 1 - Entrar na Conta\n 2 - Criar Conta Corrente\n 3 - Criar Conta Poupança\n 4 - Depositar\n 5 - Sacar\n 6 - Transferir\n 7 - Aplicar Juros\n 8 - Extrato\n 9 - Sair\n"
+            "\nInsira o número da opção desejada:\n 1 - Criar Conta\n 2 - Depositar\n 3 - Sacar\n 4 - Transferir\n 5 - Aplicar Juros\n 6 - Gerar Extrato\n 7 - Entrar na Conta\n 8 - Sair\n"
         );
 
+
         switch (opcao) {
-            case 1: // Entrar na Conta
-                user = EntrarNaConta();
-                break;
-            case 2: // Criar Conta Corrente
-                user = criarConta("corrente");
+            case 1: // Criar Conta
+                let tipoConta = rl.question("Qual o tipo de conta? (corrente/poupanca): ");
+                user = criarConta(tipoConta);
                 contas.push(user);
                 break;
-            case 3: // Criar Conta Poupança
-                user = criarConta("poupanca");
-                contas.push(user);
-                break;
-            case 4: // Depositar
+            case 2: // Depositar
                 if (user) {
                     let valor = rl.questionFloat("Insira o valor do depósito: ");
                     user.Depositar(valor);
                 } else {
-                    console.log("Nenhuma conta selecionada. Escolha a opção 1 para entrar na conta.");
+                    console.log("Nenhuma conta selecionada. Escolha a opção 7 para entrar na conta.");
                 }
                 break;
-            case 5: // Sacar
+            case 3: // Sacar
                 if (user) {
                     let valor = rl.questionFloat("Insira o valor do saque: ");
                     user.Sacar(valor);
                 } else {
-                    console.log("Nenhuma conta selecionada. Escolha a opção 1 para entrar na conta.");
+                    console.log("Nenhuma conta selecionada. Escolha a opção 7 para entrar na conta.");
                 }
                 break;
-            case 6: // Transferir
+            case 4: // Transferir
                 if (user) {
-                    if (contas.length > 1) { // Verifica se há mais de uma conta disponível
+                    if (contas.length > 1) {
                         console.log("===== LISTAGEM DE CONTAS NO BANCO DE DADOS =====");
                         console.log(
                             "INDEX".padEnd(6) + 
@@ -207,7 +215,7 @@ while (menu) {
                         console.log("------------------------------------------------------");
 
                         contas.forEach((conta, index) => {
-                            if (conta.Id !== user.Id) {
+                            if (conta.Id !== conta.Id) {
                                 console.log(
                                     `${index.toString().padEnd(6)} ` +
                                     `${conta.Nome.padEnd(15)} | ` +
@@ -231,10 +239,10 @@ while (menu) {
                         console.log("Não há outras contas disponíveis para transferência.");
                     }
                 } else {
-                    console.log("Nenhuma conta selecionada. Escolha a opção 1 para entrar na conta.");
+                    console.log("Nenhuma conta selecionada. Escolha a opção 7 para entrar na conta.");
                 }
                 break;
-            case 7: // Aplicar Juros
+            case 5: // Aplicar Juros
                 if (user instanceof ContaPoupanca) {
                     let taxa = rl.questionFloat("Insira a taxa de juros (%): ");
                     user.AplicarJuros(taxa);
@@ -242,14 +250,17 @@ while (menu) {
                     console.log("Apenas contas poupança podem aplicar juros.");
                 }
                 break;
-            case 8: // Extrato
+            case 6: // Gerar Extrato
                 if (user) {
                     user.GerarExtrato();
                 } else {
-                    console.log("Nenhuma conta selecionada. Escolha a opção 1 para entrar na conta.");
+                    console.log("Nenhuma conta selecionada. Escolha a opção 7 para entrar na conta.");
                 }
                 break;
-            case 9: // Sair
+            case 7: // Entrar na Conta
+                user = EntrarNaConta();
+                break;
+            case 8: // Sair
                 menu = false;
                 console.log("Saindo do sistema.");
                 break;
@@ -257,8 +268,11 @@ while (menu) {
                 console.log("Opção inválida. Tente novamente.");
                 break;
         }
+
+        rl.question("Pressione Enter para continuar..."); // Pausa até o usuário pressionar Enter
     } catch (error) {
         console.log("Ocorreu um erro: " + error.message);
         console.log("Por favor, tente novamente.");
+        rl.question("Pressione Enter para continuar...");
     }
 }
