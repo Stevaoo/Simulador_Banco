@@ -3,7 +3,7 @@ import { Icliente } from "./interfaces";
 let rl = require("readline-sync");
 
 // Classe base para contas bancárias
-abstract class ContaBancaria implements Icliente {
+export class ContaBancaria implements Icliente {
     Id: number;               // Identificador único da conta
     Nome: string;            // Nome do titular da conta
     Email: string;           // Email do titular da conta
@@ -25,14 +25,19 @@ abstract class ContaBancaria implements Icliente {
         this.Saldo = Saldo;
         this.Historico = [];
     }
+    Depositar(valor: number): void {
+        throw new Error("Method not implemented.");
+    }
+    Sacar(valor: number): void {
+        throw new Error("Method not implemented.");
+    }
+    Transferir(valor: number, contaDestino: ContaBancaria): void {
+        throw new Error("Method not implemented.");
+    }
+    Salto: number;
     SaltoAtual(): number {
         throw new Error("Method not implemented.");
     }
-
-    // Método abstrato para depositar dinheiro (deve ser implementado nas subclasses)
-    abstract Depositar(valor: number): void;
-    abstract Sacar(valor: number): void;
-    abstract Transferir(valor: number, contaDestino: ContaBancaria): void;
 
     // Método para gerar um extrato detalhado da conta
     GerarExtrato(): void {
@@ -45,7 +50,7 @@ abstract class ContaBancaria implements Icliente {
         this.Historico.forEach((transacao, index) => {
             console.log(`${index + 1}. ${transacao}`);
         });
-        
+
         console.log("------------------------------------------------------");
         console.log(`Saldo Final: R$${this.Saldo.toFixed(2)}`);
     }
@@ -208,14 +213,14 @@ while (menu) {
                     if (contas.length > 1) {
                         console.log("===== LISTAGEM DE CONTAS NO BANCO DE DADOS =====");
                         console.log(
-                            "NOME".padEnd(15) + " | " + 
-                            "EMAIL".padEnd(25) + " | " + 
+                            "NOME".padEnd(15) + " | " +
+                            "EMAIL".padEnd(25) + " | " +
                             "SALDO"
                         );
                         console.log("------------------------------------------------------");
 
                         contas.forEach((conta) => {
-                            if (conta.Id !== conta.Id) {
+                            if (conta.Id !== user?.Id) {
                                 console.log(
                                     `${conta.Nome.padEnd(15)} | ` +
                                     `${conta.Email.padEnd(25)} | ` +
