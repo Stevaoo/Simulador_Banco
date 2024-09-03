@@ -35,9 +35,3 @@ export interface IPoupanca {
 } 
 
 
-
-console.log("\n===== MENU INICIAL =====");
-console.log("1 - Acessar sistema bancário");
-console.log("2 - Informações do sistema");
-console.log("3 - Ajuda");
-console.log("4 - Sair");
