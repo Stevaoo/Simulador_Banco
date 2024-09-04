@@ -1,5 +1,4 @@
 
-i
 import { rl } from "./Banco";
 import { ContaBancaria, ContaCorrente, ContaPoupanca } from "./Banco";
 
@@ -7,7 +6,7 @@ import { ContaBancaria, ContaCorrente, ContaPoupanca } from "./Banco";
 let contas: ContaBancaria[] = [];
 let user: ContaBancaria | null = null; // Conta atual selecionada
 
-// Função para criar uma nova conta bancária
+// Função para criar uma nova conta bancária stevao
 function criarConta(tipo: string): ContaBancaria {
     console.clear();
     let id = rl.questionInt("Insira o ID do usuario: ");
@@ -28,9 +27,9 @@ function criarConta(tipo: string): ContaBancaria {
         throw new Error("Tipo de conta inválido.");
     }
 }
-// Função para entrar na conta existente
+// Função para entrar na conta existente Stevao
 function EntrarNaConta(): ContaBancaria | null {
-    if (contas.length === 0) {
+    if (contas.length === 0) { // Verifica se tem conta bancaria
         console.log("Nenhuma conta cadastrada.");
         return null;
     }
@@ -48,7 +47,7 @@ function EntrarNaConta(): ContaBancaria | null {
     console.log("ID ou senha incorretos.");
     return null;
 }
-// Função FAQ para tratar dúvidas frequentes dos usuários
+// Função FAQ para tratar dúvidas frequentes dos usuários leandro
 function FAQ(): void {
     console.clear();
     // Exibe as perguntas frequentes disponíveis para o usuário
@@ -149,7 +148,7 @@ function FAQ(): void {
     }
 }
 
-// Função para exibir o menu inicial
+// Função para exibir o menu inicial Pedro
 function menuInicial(): void {
     console.clear();
     let continuar = true;
@@ -191,7 +190,7 @@ function menuInicial(): void {
     }
 }
 
-// Função para exibir o menu bancário
+// Função para exibir o menu bancário Pedro
 function menuBancario(): void {
     console.clear();
     let continuar = true;
@@ -229,7 +228,7 @@ function menuBancario(): void {
                 console.clear()
                 user = EntrarNaConta(); // troco o valor do user para "EntrarNaConta()"
                 if (user) {
-                    menuConta(user); // logica que sempre vai retornar true 
+                    menuConta(user);
                     // Si for contaBancaria entra no menuConta com os dados do User
                 }
                 break;
@@ -244,7 +243,7 @@ function menuBancario(): void {
     }
 }
 
-// Função para exibir o menu da conta
+// Função para exibir o menu da conta Leandro
 function menuConta(user: ContaBancaria): void {
     console.clear();
     let continuar = true;
@@ -310,12 +309,19 @@ function menuConta(user: ContaBancaria): void {
         }
     }
 }
-// Função para pressionar Enter e continuar
+// Função para pressionar Enter e continuar Stevao
 function pressionarEnterParaContinuar(): void {
     rl.question("Pressione Enter para continuar...");
 }
 // Sempre chama a função ao final do script
 pressionarEnterParaContinuar();
+
+// Iniciar o sistema com o menu inicial
+menuInicial();
+
+
+
+
 
 // Iniciar o sistema com o menu inicial
 menuInicial();
