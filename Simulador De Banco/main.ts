@@ -1,4 +1,5 @@
 
+i
 import { rl } from "./Banco";
 import { ContaBancaria, ContaCorrente, ContaPoupanca } from "./Banco";
 
@@ -15,11 +16,11 @@ function criarConta(tipo: string): ContaBancaria {
     let senha = rl.questionInt("Insira a senha do usuario: ");
     let saldo = rl.questionInt("Insira o saldo inicial do usuario: ");
 
-    if (tipo === "corrente") {
+    if (tipo === "1") {
         let conta = new ContaCorrente(id, nome, email, senha, saldo);
         console.log(`Conta Corrente criada para ${nome} com saldo de R$${saldo}.`);
         return conta;
-    } else if (tipo === "poupanca") {
+    } else if (tipo === "2") {
         let conta = new ContaPoupanca(id, nome, email, senha, saldo);
         console.log(`Conta Poupança criada para ${nome} com saldo de R$${saldo}.`);
         return conta;
@@ -29,7 +30,6 @@ function criarConta(tipo: string): ContaBancaria {
 }
 // Função para entrar na conta existente
 function EntrarNaConta(): ContaBancaria | null {
-    console.clear();
     if (contas.length === 0) {
         console.log("Nenhuma conta cadastrada.");
         return null;
@@ -136,6 +136,7 @@ function FAQ(): void {
             // Caso o usuário queira sair do FAQ
             case "SAIR":
             case "Sair":
+            case "sair":
                 loop = false;
                 console.log("Saindo do FAQ...");
                 break;
@@ -210,13 +211,22 @@ function menuBancario(): void {
             case 1:
                 console.clear();
                 let tipo = rl
-                    .question("Tipo de conta (corrente/poupanca): ")
+                    .question(`
+        -------------------------------------------------
+        ----------- ESCOLHA SUA OPCAO DE CONTA ----------
+        -------------------------------------------------
+                        1 - POUPANCA
+                        2 - CORRENTE 
+                        `)
                     .toLowerCase();
-                let novaConta = criarConta(tipo);
-                contas.push(novaConta);
-                console.clear();
+                    if (tipo === "1" || tipo === "2") {
+                    let novaConta = criarConta(tipo);
+                    contas.push(novaConta);
+                    console.clear();
+                    }
                 break;
             case 2:
+                console.clear()
                 user = EntrarNaConta(); // troco o valor do user para "EntrarNaConta()"
                 if (user) {
                     menuConta(user); // logica que sempre vai retornar true 
@@ -239,7 +249,6 @@ function menuConta(user: ContaBancaria): void {
     console.clear();
     let continuar = true;
     while (continuar) {
-        console.clear()
         console.log(`\
         ------------------------------------
         ------------ MENU CONTA ------------
@@ -256,11 +265,9 @@ function menuConta(user: ContaBancaria): void {
 
         switch (opcao) {
             case 1:
-                console.clear();
                 user.GerarExtrato();
                 break;
             case 2:
-                console.clear();
                 let valorDeposito = rl.questionInt("Valor do depósito: ");
                 user.Depositar(valorDeposito);
                 break;
@@ -270,7 +277,7 @@ function menuConta(user: ContaBancaria): void {
                 user.Sacar(valorSaque);
                 break;
             case 4:
-                console.clear();
+                console.clear()
                 let valorTransferencia = rl.questionInt("Valor da transferência: ");
                 let idDestino = rl.questionInt("ID da conta de destino: ");
                 // Verifica se o ID da conta corresponde com o ID destino
@@ -295,7 +302,6 @@ function menuConta(user: ContaBancaria): void {
                 }
                 break;
             case 6:
-                console.clear();
                 console.log("Saindo da conta...");
                 continuar = false;
                 break;
@@ -313,3 +319,6 @@ pressionarEnterParaContinuar();
 
 // Iniciar o sistema com o menu inicial
 menuInicial();
+
+
+
