@@ -4,8 +4,8 @@ import { Icliente, ICorrente, IPoupanca } from "./interfaces";
 
 // Classe base ContaBancaria 
 export class ContaBancaria implements Icliente {
-    Id: number; // Identificador único da conta
-    Nome: string; // Nome do titular da conta
+    public Id: number; // Identificador único da conta
+    public Nome: string; // Nome do titular da conta
     Email: string; // Email do titular da conta
     Senha: number; // Senha da conta para autenticação
     Saldo: number; // Saldo atual da conta
@@ -20,7 +20,7 @@ export class ContaBancaria implements Icliente {
         this.Historico = []; // Inicializa o histórico de transações como um array vazio
     }
 
-    // Método para gerar e exibir um extrato bancário detalhado
+    // Método para gerar e exibir um extrato bancário detalhado MATTOS
     GerarExtrato(): void {
         console.log("===== EXTRATO BANCÁRIO DETALHADO ====="); 
         console.log(`Conta: ${this.Nome} (ID: ${this.Id})`); // Mostra o nome e ID do titular da conta
@@ -40,7 +40,7 @@ export class ContaBancaria implements Icliente {
         return this.Saldo; // Retorna o saldo atual da conta
     }
 
-    // Método genérico para depositar um valor na conta
+    // Método para depositar um valor na conta Lucas
     Depositar(valor: number): void {
         if (valor <= 0) throw new Error("O valor do depósito deve ser positivo."); 
         this.Saldo += valor; 
@@ -48,7 +48,7 @@ export class ContaBancaria implements Icliente {
         console.log(`Depósito de R$${valor.toFixed(2)} realizado. Novo saldo: R$${this.Saldo.toFixed(2)}`); 
     }
 
-    // Método genérico para sacar um valor da conta
+    // Método genérico para sacar um valor da conta Lucas
     Sacar(valor: number): void {
         if (valor <= 0) throw new Error("O valor do saque deve ser positivo.");
         if (valor > this.Saldo) throw new Error("Saldo insuficiente."); 
@@ -57,7 +57,7 @@ export class ContaBancaria implements Icliente {
         console.log(`Saque de R$${valor.toFixed(2)} realizado. Novo saldo: R$${this.Saldo.toFixed(2)}`);
     }
 
-    // Método genérico para transferir um valor para outra conta bancária
+    // Método genérico para transferir um valor para outra conta bancária Lucas
     Transferir(valor: number, contaDestino: ContaBancaria): void {
         if (valor <= 0) throw new Error("O valor da transferência deve ser positivo.");
         if (valor > this.Saldo) throw new Error("Saldo insuficiente para transferência."); 
@@ -108,17 +108,16 @@ export class ContaCorrente extends ContaBancaria implements ICorrente {
     }
 }
 
-
 // Classe ContaPoupanca, que herda de ContaBancaria e implementa a interface IPoupanca
 export class ContaPoupanca extends ContaBancaria implements IPoupanca {
 
-    // Método para aplicar juros ao saldo da conta poupança
+    // Método para aplicar juros ao saldo da conta poupança MATTOS
     AplicarJuros(taxa: number): void {
         if (taxa <= 0) throw new Error("A taxa de juros deve ser positiva."); 
+        //Taxa escolhida pelo usuário dividida por cem, e multiplicada pelo saldo da conta.
         const juros = this.Saldo * (taxa / 100); 
         this.Saldo += juros; 
         this.Historico.push(`Juros aplicados: R$${juros.toFixed(2)} - Saldo: R$${this.Saldo.toFixed(2)}`);
         console.log(`Juros de R$${juros.toFixed(2)} aplicados. Novo saldo: R$${this.Saldo.toFixed(2)}`);
     }
 }
-
