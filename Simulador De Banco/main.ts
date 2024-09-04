@@ -3,11 +3,11 @@ import { rl } from "./Banco";
 import { ContaBancaria, ContaCorrente, ContaPoupanca } from "./Banco";
 
 // Lista de contas bancárias
-let contas: ContaBancaria[] = [];
-let user: ContaBancaria | null = null; // Conta atual selecionada
+public let contas: ContaBancaria[] = [];
+public let user: ContaBancaria | null = null; // Conta atual selecionada
 
 // Função para criar uma nova conta bancária stevao
-function criarConta(tipo: string): ContaBancaria {
+public function criarConta(tipo: string): ContaBancaria {
     console.clear();
     let id = rl.questionInt("Insira o ID do usuario: ");
     let nome = rl.question("Insira o nome do usuario: ");
@@ -28,7 +28,7 @@ function criarConta(tipo: string): ContaBancaria {
     }
 }
 // Função para entrar na conta existente Stevao
-function EntrarNaConta(): ContaBancaria | null {
+public function EntrarNaConta(): ContaBancaria | null {
     if (contas.length === 0) { // Verifica se tem conta bancaria
         console.log("Nenhuma conta cadastrada.");
         return null;
@@ -48,7 +48,7 @@ function EntrarNaConta(): ContaBancaria | null {
     return null;
 }
 // Função FAQ para tratar dúvidas frequentes dos usuários leandro
-function FAQ(): void {
+public function FAQ(): void {
     console.clear();
     // Exibe as perguntas frequentes disponíveis para o usuário
     console.log(`\ 
@@ -149,7 +149,7 @@ function FAQ(): void {
 }
 
 // Função para exibir o menu inicial Pedro
-function menuInicial(): void {
+public function menuInicial(): void {
     console.clear();
     let continuar = true;
     while (continuar) {
@@ -191,7 +191,7 @@ function menuInicial(): void {
 }
 
 // Função para exibir o menu bancário Pedro
-function menuBancario(): void {
+public function menuBancario(): void {
     console.clear();
     let continuar = true;
     while (continuar) {
@@ -244,7 +244,7 @@ function menuBancario(): void {
 }
 
 // Função para exibir o menu da conta Leandro
-function menuConta(user: ContaBancaria): void {
+public function menuConta(user: ContaBancaria): void {
     console.clear();
     let continuar = true;
     while (continuar) {
@@ -310,7 +310,7 @@ function menuConta(user: ContaBancaria): void {
     }
 }
 // Função para pressionar Enter e continuar Stevao
-function pressionarEnterParaContinuar(): void {
+public function pressionarEnterParaContinuar(): void {
     rl.question("Pressione Enter para continuar...");
 }
 // Sempre chama a função ao final do script
