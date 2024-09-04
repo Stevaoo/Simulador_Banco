@@ -35,6 +35,7 @@ export class ContaBancaria implements Icliente {
 
     // Método para gerar e exibir um extrato bancário detalhado
     GerarExtrato(): void {
+        console.clear();
         console.log("===== EXTRATO BANCÁRIO DETALHADO ====="); 
         console.log(`Conta: ${this.Nome} (ID: ${this.Id})`); // Mostra o nome e ID do titular da conta
         console.log(`Saldo Inicial: R$${this.Saldo.toFixed(2)}`); // Mostra o saldo inicial da conta
@@ -68,6 +69,7 @@ export class ContaCorrente extends ContaBancaria implements ICorrente {
 
     // Método para depositar um valor na conta corrente
     Depositar(valor: number): void {
+        console.clear();
         // Valida se o valor do depósito é positivo
         if (valor <= 0) throw new Error("O valor do depósito deve ser positivo."); 
         this.Saldo += valor; // Adiciona o valor ao saldo atual
@@ -79,6 +81,7 @@ export class ContaCorrente extends ContaBancaria implements ICorrente {
 
     // Método para sacar um valor da conta corrente
     Sacar(valor: number): void {
+        console.clear();
         // Valida se o valor do saque é positivo
         if (valor <= 0) throw new Error("O valor do saque deve ser positivo.");
          // Verifica se há saldo suficiente para o saque 
@@ -92,6 +95,7 @@ export class ContaCorrente extends ContaBancaria implements ICorrente {
 
     // Método para transferir um valor para outra conta bancária
     Transferir(valor: number, contaDestino: ContaBancaria): void {
+        console.clear();
          // Valida se o valor da transferência é positivo
         if (valor <= 0) throw new Error("O valor da transferência deve ser positivo.");
         // Verifica se há saldo suficiente para a transferência
@@ -118,6 +122,7 @@ export class ContaPoupanca extends ContaBancaria implements IPoupanca {
 
     // Método para depositar um valor na conta poupança
     Depositar(valor: number): void {
+        console.clear();
         // Valida se o valor do depósito é positivo
         if (valor <= 0) throw new Error("O valor do depósito deve ser positivo."); 
         this.Saldo += valor; // Adiciona o valor ao saldo atual
@@ -129,6 +134,7 @@ export class ContaPoupanca extends ContaBancaria implements IPoupanca {
 
     // Método para sacar um valor da conta poupança
     Sacar(valor: number): void {
+        console.clear();
         // Valida se o valor do saque é positivo
         if (valor <= 0) throw new Error("O valor do saque deve ser positivo.");
         // Verifica se há saldo suficiente para o saque 
@@ -142,6 +148,7 @@ export class ContaPoupanca extends ContaBancaria implements IPoupanca {
 
     // Método para transferir um valor para outra conta bancária
     Transferir(valor: number, contaDestino: ContaBancaria): void {
+        console.clear();
         // Valida se o valor da transferência é positivo
         if (valor <= 0) throw new Error("O valor da transferência deve ser positivo."); 
         // Verifica se há saldo suficiente para a transferência
@@ -155,6 +162,7 @@ export class ContaPoupanca extends ContaBancaria implements IPoupanca {
 
     // Método para aplicar juros ao saldo da conta poupança
     AplicarJuros(taxa: number): void {
+        console.clear();
         // Valida se a taxa de juros é positiva
         if (taxa <= 0) throw new Error("A taxa de juros deve ser positiva."); 
         // Calcula o valor dos juros com base no saldo e na taxa fornecida
