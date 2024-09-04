@@ -1,6 +1,8 @@
 // menu.ts
+import { log } from "console";
 import { rl } from "./Banco";
 import { ContaBancaria, ContaCorrente, ContaPoupanca } from "./Banco";
+import { isPostfixUnaryExpression } from "typescript";
 
 // Lista de contas bancárias
 let contas: ContaBancaria[] = [];
@@ -9,6 +11,7 @@ let user: ContaBancaria | null = null; // Conta atual selecionada
 
 // Função para criar uma nova conta bancária
 function criarConta(tipo: string): ContaBancaria {
+    console.clear();
     let id = rl.questionInt("Insira o ID do usuário: ");
     let nome = rl.question("Insira o nome do usuário: ");
     let email = rl.question("Insira o email do usuário: ");
@@ -27,9 +30,9 @@ function criarConta(tipo: string): ContaBancaria {
         throw new Error("Tipo de conta inválido.");
     }
 }
-
 // Função para entrar na conta existente
 function EntrarNaConta(): ContaBancaria | null {
+    console.clear();
     if (contas.length === 0) {
         console.log("Nenhuma conta cadastrada.");
         return null;
@@ -73,7 +76,6 @@ function FAQ(): void {
     while (loop) {
         // Captura a dúvida do usuário
         let duvida = rl.question("Digite o numero da sua duvida ou 'SAIR' para voltar: ");
-        console.clear();
         // Usamos switch para tratar as diferentes dúvidas do usuário
         switch (duvida) {
             // Caso a dúvida seja sobre como fazer login na conta bancária online
@@ -131,7 +133,7 @@ function FAQ(): void {
             case "O QUE FAZER SE EU SUSPEITAR DE ATIVIDADE FRAUDELENTA NA MINHA CONTA ?":
             console.clear();
                 console.log(`Ligue para a central de atendimento do banco pelo número 4002-8922. 
-                    Informe o problema e forneça os detalhes necessários para que a equipe possa investigar a situação.`);
+                    \n Informe o problema e forneça os detalhes necessários para que a equipe possa investigar a situação.`);
                 break;
 
             // Caso o usuário queira sair do FAQ
@@ -152,8 +154,8 @@ function FAQ(): void {
 
 // Função para exibir o menu inicial
 function menuInicial(): void {
-    let continuar = true;
     console.clear();
+    let continuar = true;
     while (continuar) {
         console.log(`\ 
         -----------------------------------
@@ -164,11 +166,12 @@ function menuInicial(): void {
         - 3. AJUDA                        -
         - 4. SAIR                         -
         -----------------------------------`);
-
+        
         let opcao = rl.questionInt("Escolha uma opcao: ");
 
         switch (opcao) {
             case 1:
+                console.clear();
                 console.log("\nEntrando No Banrisul...");
                 menuBancario();
                 break;
@@ -176,6 +179,7 @@ function menuInicial(): void {
                 console.log("\n O Banrisul oferece serviços de contas correntes e poupanças.");
                 break;
             case 3:
+                console.clear();
                 console.log("\nEntrando em contato com o FAQ...");
                 FAQ();
                 break;
@@ -191,9 +195,8 @@ function menuInicial(): void {
 
 // Função para exibir o menu bancário
 function menuBancario(): void {
-    let continuar = true;
     console.clear();
-
+    let continuar = true;
     while (continuar) {
         console.log(`\
         ------------------------------------
@@ -201,8 +204,7 @@ function menuBancario(): void {
         ------------------------------------
         - 1. CRIAR NOVA CONTA              -
         - 2. ENTRAR NA CONTA               -
-        - 3. AJUDA                         -
-        - 4. VOLTAR AO MENU INICIAL        -
+        - 3. VOLTAR AO MENU INICIAL        -
         ------------------------------------`);
 
         let opcao = rl.questionInt("Escolha uma opcao: ");
@@ -223,9 +225,6 @@ function menuBancario(): void {
                 }
                 break;
             case 3:
-                console.log("Para mais informações, contate o suporte.");
-                break;
-            case 4:
                 console.log("Voltando ao menu inicial...");
                 continuar = false;
                 break;
@@ -237,8 +236,8 @@ function menuBancario(): void {
 
 // Função para exibir o menu da conta
 function menuConta(user: ContaBancaria): void {
-    let continuar = true;
     console.clear();
+    let continuar = true;
     while (continuar) {
         console.log(`\
         ------------------------------------
@@ -304,4 +303,6 @@ pressionarEnterParaContinuar();
 
 // Iniciar o sistema com o menu inicial
 menuInicial();
+
+
 
