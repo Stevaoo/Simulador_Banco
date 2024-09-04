@@ -4,7 +4,6 @@ import { ContaBancaria, ContaCorrente, ContaPoupanca } from "./Banco";
 
 // Lista de contas bancárias
 let contas: ContaBancaria[] = [];
-let menu: boolean = true; // Controle do menu
 let user: ContaBancaria | null = null; // Conta atual selecionada
 
 // Função para criar uma nova conta bancária
@@ -314,6 +313,3 @@ pressionarEnterParaContinuar();
 
 // Iniciar o sistema com o menu inicial
 menuInicial();
-
-
-
