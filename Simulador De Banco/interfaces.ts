@@ -8,9 +8,8 @@ export interface Icliente {
     Saldo: number;
     Historico: string[];
     //Metodos
-    Depositar(valor: number): void ;
-    Sacar(valor: number): void;
-    Transferir(valor: number, contaDestino: ContaBancaria ): void;
+    GerarExtrato(): void  ;
+    SaldoAtual(): number;
 }
 
 export interface ILogin {

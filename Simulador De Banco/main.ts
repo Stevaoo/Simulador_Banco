@@ -1,8 +1,6 @@
-// menu.ts
-import { log } from "console";
+
 import { rl } from "./Banco";
 import { ContaBancaria, ContaCorrente, ContaPoupanca } from "./Banco";
-import { isPostfixUnaryExpression } from "typescript";
 
 // Lista de contas bancárias
 let contas: ContaBancaria[] = [];
@@ -12,11 +10,11 @@ let user: ContaBancaria | null = null; // Conta atual selecionada
 // Função para criar uma nova conta bancária
 function criarConta(tipo: string): ContaBancaria {
     console.clear();
-    let id = rl.questionInt("Insira o ID do usuário: ");
-    let nome = rl.question("Insira o nome do usuário: ");
-    let email = rl.question("Insira o email do usuário: ");
-    let senha = rl.questionInt("Insira a senha do usuário: ");
-    let saldo = rl.questionInt("Insira o saldo inicial do usuário: ");
+    let id = rl.questionInt("Insira o ID do usuario: ");
+    let nome = rl.question("Insira o nome do usuario: ");
+    let email = rl.question("Insira o email do usuario: ");
+    let senha = rl.questionInt("Insira a senha do usuario: ");
+    let saldo = rl.questionInt("Insira o saldo inicial do usuario: ");
 
     if (tipo === "corrente") {
         let conta = new ContaCorrente(id, nome, email, senha, saldo);
@@ -88,7 +86,7 @@ function FAQ(): void {
                 3 - ✔ O sistema verifica se o ID e a senha inseridos correspondem a uma conta existente. 
                 Se estiverem corretos, você será autenticado e poderá acessar as funcionalidades da sua conta.
                 4 - ✔ Se o login for bem-sucedido, uma mensagem de boas-vindas com o seu nome será exibida, 
-                indicando que você entrou na conta com sucesso.`);
+                indicando que você entrou na conta com sucesso.\n`);
                 break;
             // Caso a dúvida seja sobre a recuperação de senha
             case "2":
@@ -101,7 +99,7 @@ function FAQ(): void {
             case "3":
             case "O QUE FAZER SE MINHA CONTA FOR BLOQUEADA OU SUSPENSA ?":
             console.clear();
-                console.log("Se for chorar, manda áudio! Nós não nos responsabilizamos por contas bloqueadas ou suspensas.");
+                console.log("Se for chorar, manda áudio! Nós não nos responsabilizamos por contas bloqueadas ou suspensas.\n");
                 break;
 
             // Caso a dúvida seja sobre como verificar saldo e histórico de transações
@@ -112,7 +110,7 @@ function FAQ(): void {
                     1 - ➱ No menu bancário, selecione a opção 2. Entrar na Conta.
                     2 - ✔ Insira o ID da conta e a senha.
                     3 - ✔ No menu da conta, selecione a opção 1. 
-                    Ver Extrato para visualizar o saldo e o histórico de transações.`);
+                    Ver Extrato para visualizar o saldo e o histórico de transações.\n`);
                 break;
 
             // Caso a dúvida seja sobre como realizar transferências
@@ -125,7 +123,7 @@ function FAQ(): void {
                     3 - ✔ No menu da conta, selecione a opção 4. Transferência.
                     4 - ✔ Insira o valor da transferência.
                     5 - ✔ Insira o ID da conta de destino. (O sistema verificará se a conta de destino existe.)
-                    6 - ✔ O sistema realizará a transferência e atualizará o seu saldo e o histórico de transações.`);
+                    6 - ✔ O sistema realizará a transferência e atualizará o seu saldo e o histórico de transações.\n`);
                 break;
 
             // Caso a dúvida seja sobre atividades fraudulentas
@@ -133,12 +131,11 @@ function FAQ(): void {
             case "O QUE FAZER SE EU SUSPEITAR DE ATIVIDADE FRAUDELENTA NA MINHA CONTA ?":
             console.clear();
                 console.log(`Ligue para a central de atendimento do banco pelo número 4002-8922. 
-                    \n Informe o problema e forneça os detalhes necessários para que a equipe possa investigar a situação.`);
+                    \n Informe o problema e forneça os detalhes necessários para que a equipe possa investigar a situação.\n`);
                 break;
 
             // Caso o usuário queira sair do FAQ
             case "SAIR":
-            case "sair":
             case "Sair":
                 loop = false;
                 console.log("Saindo do FAQ...");
@@ -176,14 +173,15 @@ function menuInicial(): void {
                 menuBancario();
                 break;
             case 2:
+                console.clear();
                 console.log("\n O Banrisul oferece serviços de contas correntes e poupanças.");
                 break;
             case 3:
-                console.clear();
                 console.log("\nEntrando em contato com o FAQ...");
                 FAQ();
                 break;
             case 4:
+                console.clear();
                 console.log("\nSaindo do sistema...");
                 continuar = false;
                 break;
@@ -211,6 +209,7 @@ function menuBancario(): void {
 
         switch (opcao) {
             case 1:
+                console.clear();
                 let tipo = rl
                     .question("Tipo de conta (corrente/poupanca): ")
                     .toLowerCase();
@@ -219,12 +218,14 @@ function menuBancario(): void {
                 console.clear();
                 break;
             case 2:
-                user = EntrarNaConta();
+                user = EntrarNaConta(); // troco o valor do user para "EntrarNaConta()"
                 if (user) {
-                    menuConta(user);
+                    menuConta(user); // logica que sempre vai retornar true 
+                    // Si for contaBancaria entra no menuConta com os dados do User
                 }
                 break;
             case 3:
+                console.clear();
                 console.log("Voltando ao menu inicial...");
                 continuar = false;
                 break;
@@ -239,6 +240,7 @@ function menuConta(user: ContaBancaria): void {
     console.clear();
     let continuar = true;
     while (continuar) {
+        console.clear()
         console.log(`\
         ------------------------------------
         ------------ MENU CONTA ------------
@@ -255,20 +257,26 @@ function menuConta(user: ContaBancaria): void {
 
         switch (opcao) {
             case 1:
+                console.clear();
                 user.GerarExtrato();
                 break;
             case 2:
+                console.clear();
                 let valorDeposito = rl.questionInt("Valor do depósito: ");
                 user.Depositar(valorDeposito);
                 break;
             case 3:
+                console.clear();
                 let valorSaque = rl.questionInt("Valor do saque: ");
                 user.Sacar(valorSaque);
                 break;
             case 4:
+                console.clear();
                 let valorTransferencia = rl.questionInt("Valor da transferência: ");
                 let idDestino = rl.questionInt("ID da conta de destino: ");
+                // Verifica se o ID da conta corresponde com o ID destino
                 let contaDestino = contas.find((conta) => conta.Id === idDestino);
+                // find para encontrar o objeto específico dentro da array (ID).
                 if (contaDestino) {
                     user.Transferir(valorTransferencia, contaDestino);
                 } else {
@@ -276,7 +284,9 @@ function menuConta(user: ContaBancaria): void {
                 }
                 break;
             case 5:
-                if (user instanceof ContaPoupanca) {
+                console.clear();
+                // ContaPoupanca herda a ContaBancaria então eles são umas instancia 
+                if (user instanceof ContaPoupanca) { 
                     let taxa = rl.questionFloat("Taxa de juros (%): ");
                     user.AplicarJuros(taxa);
                 } else {
@@ -286,6 +296,7 @@ function menuConta(user: ContaBancaria): void {
                 }
                 break;
             case 6:
+                console.clear();
                 console.log("Saindo da conta...");
                 continuar = false;
                 break;
@@ -298,7 +309,7 @@ function menuConta(user: ContaBancaria): void {
 function pressionarEnterParaContinuar(): void {
     rl.question("Pressione Enter para continuar...");
 }
-// Chamar a função no final do script
+// Sempre chama a função ao final do script
 pressionarEnterParaContinuar();
 
 // Iniciar o sistema com o menu inicial
